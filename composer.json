@@ -1,0 +1,13 @@
+{
+    "name": "houseofdross/slack-skippybadge",
+    "description": "Slack command to award skippy-badges",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Matthew Wheeler",
+            "email": "matt@yurisko.net"
+        }
+    ],
+    "require": {}
+}
