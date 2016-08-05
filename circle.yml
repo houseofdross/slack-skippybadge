@@ -2,9 +2,9 @@ machine:
   php:
     version: 7.0.7
 
-dependencies:
-  pre:
-    - echo "date.timezone = 'Australia/Melbourne'" > ~/.phpenv/versions/$(phpenv global)/etc/conf.d/timezone.ini
+#dependencies:
+#  pre:
+#    - echo "date.timezone = 'Australia/Melbourne'" > ~/.phpenv/versions/$(phpenv global)/etc/conf.d/timezone.ini
 
 test:
   pre:
