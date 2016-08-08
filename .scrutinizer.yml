@@ -1,0 +1,55 @@
+checks:
+    php:
+        code_rating: true
+        duplication: true
+        fix_php_opening_tag: false
+        remove_php_closing_tag: false
+        one_class_per_file: true
+        side_effects_or_types: true
+        no_mixed_inline_html: false
+        require_braces_around_control_structures: false
+        php5_style_constructor: true
+        no_global_keyword: true
+        avoid_usage_of_logical_operators: false
+        psr2_class_declaration: true
+        no_underscore_prefix_in_properties: true
+        no_underscore_prefix_in_methods: true
+        blank_line_after_namespace_declaration: false
+        single_namespace_per_use: false
+        psr2_switch_declaration: true
+        psr2_control_structure_declaration: false
+        avoid_superglobals: false
+        security_vulnerabilities: true
+        no_exit: true
+        uppercase_constants: true
+        use_self_instead_of_fqcn: true
+        properties_in_camelcaps: true
+        parameters_in_camelcaps: true
+        param_doc_comment_if_not_inferrable: true
+        return_doc_comment_if_not_inferrable: true
+        overriding_parameter: true
+        optional_parameters_at_the_end: true
+        no_goto: true
+        line_length:
+            max_length: '120'
+        function_in_camel_caps: true
+        classes_in_camel_caps: true
+        check_method_contracts:
+            verify_interface_like_constraints: true
+            verify_documented_constraints: true
+            verify_parent_constraints: true
+        avoid_todo_comments: true
+        avoid_perl_style_comments: true
+        return_doc_comments: true
+
+filter: {  }
+coding_style:
+    php: {  }
+build:
+    tests:
+        override:
+            -
+                command: 'vendor/bin/phpunit'
+                coverage:
+                    file: 'build/logs/clover.xml'
+                    format: 'clover'
