@@ -46,6 +46,11 @@ filter: {  }
 coding_style:
     php: {  }
 build:
+    environment:
+        php:
+            version: 7.0.7
+            ini:
+                'date.timezone': 'Australia/Melbourne'
     tests:
         override:
             -
