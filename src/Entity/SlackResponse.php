@@ -38,7 +38,7 @@ class SlackResponse implements \JsonSerializable
         $this->attachments = $this->filterAttachments($attachments);
     }
 
-    function jsonSerialize() :array
+    public function jsonSerialize() :array
     {
         $response = [
             'text' => $this->getResponseText(),
@@ -58,16 +58,6 @@ class SlackResponse implements \JsonSerializable
         return $response;
     }
 
-    private function serializeAttachments() :array
-    {
-        $serializedAttachments = [];
-        foreach($this->getAttachments() as $attachment) {
-            $serializedAttachments[$attachment->getParameter()] = $attachment->getValue();
-        }
-
-        return $serializedAttachments;
-    }
-
     /**
      * @param Attachment[] $attachments
      * @return Attachment[]
@@ -77,8 +67,8 @@ class SlackResponse implements \JsonSerializable
         $filteredAttachments = [];
 
         foreach($attachments as $attachment) {
-            if (false == $attachment instanceof Attachment) {
-                throw new \InvalidArgumentException("Attachments must be of type HouseOfDross\\Skippy\\Entity\\SlackResponse\\Attachment");
+            if (false === $attachment instanceof Attachment) {
+                throw new \InvalidArgumentException("Attachments must be of type SlackResponse\\Attachment");
             }
             $filteredAttachments[] = $attachment;
         }

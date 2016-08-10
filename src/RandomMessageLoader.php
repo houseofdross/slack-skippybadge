@@ -6,6 +6,7 @@ use Symfony\Component\Yaml\Yaml;
 
 class RandomMessageLoader
 {
+    private $fileSystem;
     private $yamlFilename;
 
     public function __construct(Filesystem $fileSystem, string $yamlFilename)

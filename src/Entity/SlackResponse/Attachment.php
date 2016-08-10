@@ -21,7 +21,7 @@ class Attachment implements \JsonSerializable
         $this->properties = $properties;
     }
 
-    function jsonSerialize() :array
+    public function jsonSerialize() :array
     {
         return $this->properties;
     }

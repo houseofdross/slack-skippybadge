@@ -12,8 +12,14 @@ require __DIR__.'/../vendor/autoload.php';
 $app = new \Slim\App;
 $app->post('/skippy', function (Request $request, Response $response) {
 
-    $slackRequest = new SlackRequest($request->getParsedBody());
+    $requestBody = $request->getParsedBody();
+    if (false === is_array($requestBody)) {
+        $unreadableRequestResponse = $response->withStatus(400);
+        $unreadableRequestResponse->getBody()->write("Unable to parse the body of the message POSTed");
+        return $unreadableRequestResponse;
+    }
 
+    $slackRequest = new SlackRequest($requestBody);
     if ($slackRequest->isSslCheck()) {
         $sslCheckResponse = $response->withStatus(200);
         $sslCheckResponse->getBody()->write("SSL Check Successful");
@@ -27,7 +33,7 @@ $app->post('/skippy', function (Request $request, Response $response) {
     }
 
     $commandPieces = explode(' ', $slackRequest->getCommandText(), 2);
-    if (count($commandPieces) != 2 || false == preg_match('/@[^@]*/',$commandPieces[0])) {
+    if (count($commandPieces) != 2 || 0 === preg_match('/@[^@]*/',$commandPieces[0])) {
         $invalidCommandFormatResponse = $response->withStatus(400);
         $invalidCommandFormatResponse->getBody()->write('Invalid skippy command, use \'/skippy @user [message]');
         return $invalidCommandFormatResponse;
