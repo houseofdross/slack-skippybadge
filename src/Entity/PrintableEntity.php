@@ -12,6 +12,6 @@ trait PrintableEntity
 {
     public function __toString() :string
     {
-        return get_class($this) .':'. json_encode(get_object_vars($this));
+        return get_class($this) . ':' . json_encode(get_object_vars($this));
     }
 }

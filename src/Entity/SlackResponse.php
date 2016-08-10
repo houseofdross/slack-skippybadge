@@ -1,5 +1,6 @@
 <?php
 namespace HouseOfDross\Skippy\Entity;
+
 use HouseOfDross\Skippy\Entity\SlackResponse\Attachment;
 
 /**
@@ -38,7 +39,7 @@ class SlackResponse implements \JsonSerializable
         $this->attachments = $this->filterAttachments($attachments);
     }
 
-    function jsonSerialize() :array
+    public function jsonSerialize() :array
     {
         $response = [
             'text' => $this->getResponseText(),
@@ -47,12 +48,8 @@ class SlackResponse implements \JsonSerializable
             'username' => 'SkippyBadgeBot',
         ];
 
-        $attachments = $this->getAttachments();
-        if (count($attachments)) {
-            $response['attachments'] = [];
-            foreach($attachments as $attachment) {
-                $response['attachments'][] = $attachment->jsonSerialize();
-            }
+        if (count($this->getAttachments())) {
+            $response['attachments'] = $this->serializeAttachments();
         }
 
         return $response;
@@ -61,10 +58,9 @@ class SlackResponse implements \JsonSerializable
     private function serializeAttachments() :array
     {
         $serializedAttachments = [];
-        foreach($this->getAttachments() as $attachment) {
-            $serializedAttachments[$attachment->getParameter()] = $attachment->getValue();
+        foreach ($this->attachments as $attachment) {
+            $serializedAttachments[] = $attachment->jsonSerialize();
         }
-
         return $serializedAttachments;
     }
 
@@ -76,9 +72,9 @@ class SlackResponse implements \JsonSerializable
     {
         $filteredAttachments = [];
 
-        foreach($attachments as $attachment) {
-            if (false == $attachment instanceof Attachment) {
-                throw new \InvalidArgumentException("Attachments must be of type HouseOfDross\\Skippy\\Entity\\SlackResponse\\Attachment");
+        foreach ($attachments as $attachment) {
+            if (false === $attachment instanceof Attachment) {
+                throw new \InvalidArgumentException("Attachments must be of type SlackResponse\\Attachment");
             }
             $filteredAttachments[] = $attachment;
         }
