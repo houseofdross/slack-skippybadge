@@ -7,10 +7,10 @@ use League\Flysystem\Filesystem;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 
-require __DIR__.'/../vendor/autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
 
 $app = new \Slim\App;
-$app->post('/skippy', function (Request $request, Response $response) {
+$app->post('/skippy', function(Request $request, Response $response) {
 
     $requestBody = $request->getParsedBody();
     if (false === is_array($requestBody)) {
@@ -33,7 +33,7 @@ $app->post('/skippy', function (Request $request, Response $response) {
     }
 
     $commandPieces = explode(' ', $slackRequest->getCommandText(), 2);
-    if (count($commandPieces) != 2 || 0 === preg_match('/@[^@]*/',$commandPieces[0])) {
+    if (count($commandPieces) != 2 || 0 === preg_match('/@[^@]*/', $commandPieces[0])) {
         $invalidCommandFormatResponse = $response->withStatus(400);
         $invalidCommandFormatResponse->getBody()->write('Invalid skippy command, use \'/skippy @user [message]');
         return $invalidCommandFormatResponse;
@@ -42,7 +42,7 @@ $app->post('/skippy', function (Request $request, Response $response) {
     $user = $commandPieces[0];
     $message = $commandPieces[1];
 
-    $fileSystem = new Filesystem(new Local(__DIR__.'/../resources'));
+    $fileSystem = new Filesystem(new Local(__DIR__ . '/../resources'));
     $messageLoader = new RandomMessageLoader($fileSystem, 'skippy_responses.yaml');
     $responseMessage = str_replace(['{user}', '{message}'], [$user, $message], $messageLoader->getRandomMessage());
     $slackResponse = new SlackResponse($responseMessage, []);
