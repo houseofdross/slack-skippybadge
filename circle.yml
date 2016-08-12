@@ -1,0 +1,18 @@
+machine:
+  php:
+    version: 7.0.7
+
+#dependencies:
+#  pre:
+#    - echo "date.timezone = 'Australia/Melbourne'" > ~/.phpenv/versions/$(phpenv global)/etc/conf.d/timezone.ini
+
+test:
+  pre:
+    # install composer dependencies to gain access to concise
+    - composer --dev install
+  override:
+    # run full test suite for coverage
+    - vendor/bin/concise --ci
+  post:
+    - mkdir -p $CIRCLE_TEST_REPORTS/junit/
+    - if [ -d "build/junit" ]; then cp build/junit/*.xml $CIRCLE_TEST_REPORTS/junit/; fi
